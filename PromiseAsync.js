@@ -1,4 +1,56 @@
 /*
+這邊的輸出為: good2;
+NONONO2;
+NONONO;
+good;
+
+解析: 把這部影片先看完應該就會了;
+www.youtube.com/watch?v=8aGhZQkoFbQ&ab_channel=JSConf
+
+
+https: const pro = (num) => {
+  return new Promise((resolve, reject) => {
+    if (num === 10) {
+      setTimeout(() => {
+        resolve("good");
+      }, 10000);
+    } else {
+      setTimeout(() => {
+        reject("NONONO");
+      }, 8000);
+    }
+  });
+};
+
+const pro2 = (num) => {
+  return new Promise((resolve, reject) => {
+    if (num === 10) {
+      setTimeout(() => {
+        resolve("good2");
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        reject("NONONO2");
+      }, 5000);
+    }
+  });
+};
+
+pro(10).then((result) => {
+  console.log(result);
+});
+pro2(10).then((result) => {
+  console.log(result);
+});
+pro(1).catch((result2) => {
+  console.log(result2);
+});
+pro2(2).catch((result2) => {
+  console.log(result2);
+});
+*/
+
+/*
 這邊的輸出為:
 Sys start
 sys finish
@@ -13,7 +65,7 @@ sys finish
   因為後面還有東西，所以系統會先跑console.log("sys finish")
   此時後stack中已經真的沒東西了，settimeout的東西也差不多跑完了，這時東西也已經被丟到callback queue中了，會在下一個event loop 時被丟到stack裡，這時就會print 出 print one、出 print one、first = Justin，並new出一個pro("Selene")
   由於又是一個pro的promise，也是用到web api的setimeout，所以東西都是相同的:也是會先進到web api中讓他跑3秒後，排到callback queue中， 等到下一個event loop時再console.log中  
-  
+
 const pro = (nname) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -34,7 +86,7 @@ pro("Justin")
   });
 
 console.log("sys finish");
-*/
+  */
 /*
 這邊的輸出為:
 printing one
@@ -44,6 +96,8 @@ secondss =  Selene
 
 解析:
   這邊我們可以看到第一個then return 的值，會變成下一個then的參數
+
+
 const pro = (nname) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -104,11 +158,12 @@ pro(10).catch((result) => {
 /*
 這邊的輸出為:
 15秒後result =  30
-4秒後result =  40
+5秒後result =  40
 NONONO =  too small!!!
 
 解析:
   async裡面可以包await，其中的await會等待他上面的那個完成才會執行。
+
 
 const pro = (number) => {
   return new Promise((resolve, reject) => {
@@ -162,6 +217,7 @@ async function func() {
 
 func();
 */
+
 /*
 這邊我們可以看到pro1與pro2都進入web api 中了，但因為pro2比較快結束，所以是先印出pro2的
 const pro1 = () => {
@@ -192,6 +248,8 @@ pro2().then((result) => {
 /*
 
 我們可以看到，async回傳的是一個Promise物件，故可用then去取得回傳值
+
+
 const pro = (number) => {
   return new Promise((resolve, reject) => {
     if (number > 20) {
